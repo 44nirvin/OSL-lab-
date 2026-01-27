@@ -1,0 +1,33 @@
+2. Write a shell script to list all files (only file names) containing the input pattern
+(string) in the folder entered by the user.
+
+shell script:
+
+#!/bin/sh
+
+echo "Enter directory"
+read dir
+
+echo "Enter pattern: "
+read pat
+
+if [ -d "$dir" ]
+then 
+	ls test | grep "$pat"
+else
+	echo "Directory doesn't exist"
+fi
+
+
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ nano q2.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ./q2.sh
+Enter directory
+test
+Enter pattern: 
+.txt
+a.txt
+b.txt
+c.txt
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ls test
+a.txt  b.txt  c.txt  d.java  e.html  f.css  g.c
+

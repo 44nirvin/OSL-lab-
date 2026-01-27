@@ -1,0 +1,22 @@
+3. Write a shell script to replace all files with .txt extension with .text in the current di-
+rectory. This has to be done recursively i.e if the current folder contains a folder
+“OS” with abc.txt then it has to be changed to abc.text ( Hint: use find, mv )
+
+shell script: 
+
+#!/bin/sh
+
+find . -type f -name "*.txt" | while read file
+do 
+	newname="${file%.txt}.text"
+	mv "$file" "$newname"
+done
+
+
+
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ nano q3.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ chmod +x q3.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ./q3.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ls
+example.sh  input.sh  q1.sh  q1.text  q2.sh  q2.text  q3.sh  stuff.text  test  testfile.text
+
