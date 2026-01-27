@@ -1,0 +1,42 @@
+Q. Create file studentInformation.txt using vi editor which contains details in the
+following format.
+RegistrationNo:Name:Department:Branch:Section:Sub1:Sub2:Sub3
+1234:XYZ:ICT:CCE:A:80:60:70 … (add atleast 10 rows)
+
+	1:a:ICT:CSE:A:70:80:90
+	2:b:ICT:CSE:B:40:60:10
+	3:c:ICT:IT:A:45:100:92
+	4:d:ICT:IT:C:20:10:4
+	5:e:MECH:MECH:A:100:100:40
+	6:f:ECE:ENI:D:40:20:40
+	7:g:ECE:ECE:B:20:100:100
+	8:h:CIV:CIV:D:10:10:10
+	1234:XYZ:ICT:CCE:D:60:80:70
+	10:j:CHEM:CHEM:A:10:10:100
+
+
+
+
+i) Display the number students( only count) belonging to ICT department.
+
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep -c 'ICT' q3.txt
+	5
+
+ii) Replace all occurrences of IT branch with “Information Technology” and save
+the output to ITStudents.txt
+
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep -c 'IT' q3.txt
+	2
+
+
+iii) Display the average marks of student with the given registration number
+“1234” (or any specific existing number).
+
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ line=$(grep "^1234:" q3*)
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ m1=$(echo $line | cut -d: -f6)
+	m2=$(echo $line | cut -d: -f7)
+	m3=$(echo $line | cut -d: -f8)
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ average=$(expr \( $m1 + $m2 + $m3 \) / 3)~
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ echo "The average for student 1234 is: $average"
+	The average for student 1234 is: 70~
+

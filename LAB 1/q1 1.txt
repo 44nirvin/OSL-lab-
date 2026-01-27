@@ -1,0 +1,221 @@
+1. grep: searching from a file or files
+
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat > q*
+		aa
+		abcd 
+		cd
+		cdefgh
+		aad
+		^C
+
+
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep 'aa' q*
+		aa
+		aad
+
+	flag -x ( only matching lines)
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep -x 'aa' q*
+		aa
+
+	flag -v ( non-matching lines)
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep -v 'aa' q*
+		abcd 
+		cd
+		cdefgh
+
+
+
+
+
+
+
+2. sort: sorting contents of a file
+
+
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat < ex1.txt
+		i
+
+		helllo oooofhiughDG
+
+		1574 abcde 829810 fghij 01901
+
+		zzzz
+
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ sort ex1.txt
+
+
+
+
+		1574 abcde 829810 fghij 01901
+		helllo oooofhiughDG
+		i
+		zzzz
+	flag : -r gives reverse sorted order
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ sort -r ex1.txt
+		zzzz
+		i
+		helllo oooofhiughDG
+		1574 abcde 829810 fghij 01901
+
+
+
+
+
+	flag : -n sorts numbers
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat > ex1.txt
+		110
+		2
+		9
+		556
+		54
+		201
+		1001
+		^C
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ sort -n ex1.txt
+		2
+		9
+		54
+		110
+		201
+		556
+		1001
+
+	flag : -o gives o/p in an output file
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ sort -n -o opex1.txt ex1.txt
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat op*
+		2
+		9
+		54
+		110
+		201
+		556
+		1001
+		(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ 
+
+
+3. wc: word count 
+	Command used: wc apple.txt
+	Output:  25  25 108 apple.txt
+
+4. cut: cut from a file(s)
+	Command used: cut -c1-5 apple.txt
+	Output:
+	an
+	seb
+	a
+	day
+	keeps
+	the
+	docto
+	away
+	is
+	that
+	so
+	oh
+	i
+	did
+	not
+	know
+	well
+	thank
+	for
+	infor
+	.
+	seb
+	seb
+	seb
+	seb
+
+5. sed: stream editor
+	Command used: sed -e -i 's/seb/apple/g' apple.txt
+	2nd Command used: cat apple.txt
+	Output:
+	an
+	apple
+	a
+	day
+	keeps
+	the
+	doctor
+	away
+	is
+	that
+	so
+	oh
+	i
+	did
+	not
+	know
+	well
+	thanks
+	for
+	informing
+	.
+	apple
+	apple
+	apple
+	apple
+
+6. tr: translate- translates or changer to the argument
+	Command used: tr "abcd" "lmao" < apple.txt
+	Output:
+	ln
+	lpple
+	l
+	oly
+	keeps
+	the
+	ooator
+	lwly
+	is
+	thlt
+	so
+	oh
+	i
+	oio
+	not
+	know
+	well
+	thlnks
+	for
+	informing
+	.
+	lpple
+	lpple
+	lpple
+	lpple
+
+7. ps: process status
+	Command used: ps
+	Output:  
+	    PID TTY          TIME CMD
+	   6342 pts/1    00:00:00 bash
+	   6652 pts/1    00:00:00 ps
+
+8. kill: kills command
+	Command used: kill 6342
+	Output: Nothing happened, since it was a SIGTERM Request and not SIGKILL,so bash did not close.(The process manager rejected it)
+
+9. chmod: change mode
+	Command used: chmod a-x apple.txt
+	Output: The file permissions changed,and for all users, executing the program is barred now. One can check this by clicking the file,pressing Alt+Enter,going to the permissions tab and comparing the difference in whether the execution checkbox is clicked or not.
+
+10. echo:
+	Command used: echo "This is OS Lab 2, solving Question 1."
+	Output: This is OS Lab 2, solving Question 1.
+
+11.bc: basic calc
+	Command used: bc
+	Arithmetic Instructions and their outputs:
+	 6+2
+	8
+	8/2
+	4
+	4-1
+	3
+	3/1
+	3
+	3/3
+	1
+	1-1
+	0

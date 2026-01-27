@@ -1,0 +1,75 @@
+2. Write grep commands to do the following activities:
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat > ex1.txt
+	aa
+	bcdh
+	bc
+	ahjakl
+
+	cd
+	cdl
+	^C
+
+
+
+
+• To select the lines from a file that have exactly two characters.
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep ^'..$' e*
+	ex1.txt:aa
+	ex1.txt:bc
+	ex1.txt:cd
+
+
+• To select the lines from a file that start with the upper case letter.
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat >ex1*
+	And
+	saul goodman
+	Jynx
+	Walter white
+	^C
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep ^'[A-Z].*$' ex1*
+	And
+	Jynx
+	Walter white
+
+
+
+• To select the lines from a file that end with a period.
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat > ex1*
+	aaaaaaaaaaaaaa.
+	bbbbbbbbbbbbbbb
+	cccccccccc
+	ddddddddddddd.
+	
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep '\.$' ex1*
+	aaaaaaaaaaaaaa.
+	ddddddddddddd.
+
+• To select the lines in a file that has one or more blank spaces.
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat > ex1*
+	aaaaa bbbb
+	cd efghi   j
+	xyz
+	pqrs
+	j v m
+	^C
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep ' ' ex1*
+	aaaaa bbbb
+	cd efghi   j
+	j v m
+
+• To select the lines in a file and direct them to another file which has digits as one of the characters in that line
+
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat ex1*
+	aaa1a bbbb
+	cd efghi   j
+	xyz
+	pqr23s
+	j v m
+	676767
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ grep '[0-9]' ex1.txt > ex2.txt
+	(base) mca@computinglab25-01:~/Documents/os_240905318/lab2$ cat ex2.txt
+	aaa1a bbbb
+	pqr23s
+	676767
+
+
