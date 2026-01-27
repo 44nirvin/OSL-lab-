@@ -1,0 +1,41 @@
+1. Write a shell script to find whether a given file is the directory or regular file.
+
+
+shell script:
+
+
+
+#!/bin/sh
+
+echo "Enter file name or directory name:"
+read name
+if [ -d "$name" ]
+then 
+	echo "directory"
+elif [ -f "$name" ]
+then
+	echo "file"
+else
+	echo "does not exist"
+fi
+
+
+
+
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ nano q1.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ chmod +x q1.sh
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ./q1.sh
+Enter file name or directory name:
+testfile
+does not exist
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ./q1.sh
+Enter file name or directory name:
+test
+directory
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ ./q1.sh
+Enter file name or directory name:
+testfile.txt
+file
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ gedit q1.txt
+(base) mca@computinglab25-01:~/Documents/os_240905318/lab3$ 
+
