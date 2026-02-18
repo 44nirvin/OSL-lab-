@@ -1,0 +1,103 @@
+Synchronization:
+
+Data race: if 2 happen to perform the same/ similar actions: like incrementing the same variable- what really happens is
+- read <var>
+- update <var>
+- rollback <var>
+
+hence a race condition is happens.
+
+representation in C :
+
+// race.c
+#include <pthread.h>
+int counter = 0;
+void * func(void * params) {
+	counter++; // Non-atomic: READ → MODIFY → WRITE
+	return NULL;
+}
+void main() {
+	pthread_t thread1, thread2;
+	pthread_create(&thread1, 0, func, 0);
+	pthread_create(&thread2, 0, func, 0);
+	pthread_join(thread1, 0);
+	pthread_join(thread2, 0);
+	// counter may be 1 instead of 2!
+}
+
+
+step 1: Compile with debug symbols
+	$gcc -g race.c -lpthread -o race
+
+step 2: Run under helgrind
+	$valgrind --tool=helgrind ./race
+
+-g to show line numbers on helgrind and adds debug info.
+-lpthread : l= link, this links the exe file to the pthread library.
+
+
+__________________________________________________________________________________________
+
+MUTEX: mutual exclusion
+
+
+Mutex locks: mechanisms that can be acquired by only 1 thread at a time. others must wait until said thread is released. 
+
+pthread_mutex_init()
+	Initialize mutex (dynamic or static via PTHREAD_MUTEX_INITIALIZER)
+	
+pthread_mutex_lock()
+	Acquire lock — blocks if already held by another thread
+
+pthread_mutex_unlock()
+	Release the lock so waiting threads can proceed
+
+pthread_mutex_destroy()
+	Free resources when mutex is no longer needed
+	
+	
+	
+pthread_mutex_t mutex;
+volatile int counter = 0;
+void * count(void * param) {
+	for (int i = 0; i < 100; i++) {
+		pthread_mutex_lock(&mutex); // Acquire lock
+		counter++;
+		printf("Count = %i\n", counter);
+		pthread_mutex_unlock(&mutex); // Release lock
+	}
+}
+int main() {
+	pthread_mutex_init(&mutex, 0);
+	pthread_create(&thread1, 0, count, 0);
+	pthread_create(&thread2, 0, count, 0);
+	pthread_join(thread1, 0);
+	pthread_join(thread2, 0);
+	pthread_mutex_destroy(&mutex);
+}	
+
+//volatile int tells the compiler to not optimize the integer if it explodes.
+_________________________________________________________________________________________
+
+SEMAPHORES
+mechanisms to control access to shared resources.
+
+-sem_init(sem, pshared, value)
+	Initialize semaphore. pshared=0 (private to process), value=initial count.
+	
+-sem_wait(sem)
+	Decrement semaphore. If value is 0, blocks until nonzero, then decrements.
+	
+-sem_post(sem)
+	Increment the semaphore. Unblocks a waiting thread if any are queued.
+	
+-sem_getvalue(sem, *val)
+	Write current semaphore value into the integer variable pointed to by val.
+	
+-sem_destroy(sem)
+	Free resources. Call after all threads have finished using the semaphore.
+
+
+	
+	
+

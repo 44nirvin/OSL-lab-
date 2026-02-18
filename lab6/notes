@@ -1,0 +1,164 @@
+pipes in c
+
+pipes are one wya normally, when they are unnamed 
+
+to make named pipe, use mkfifo() method
+
+
+
+now more functions:
+
+msgget() [message get] - used to create and access queue
+msgsnd() [msg send]    - send a message to queue
+msgrcv() [msg receive] - receive a message from queue
+msgctl() [msg control] - to control or delete queue
+
+
+
+1. msgget()
+
+int msgget(key_t key, int msgflg) - key and flag as arguments. 
+	key for identification, 
+	flag for permissions.
+
+example
+int msgid=msgget(1234, 0666 | IPC_CREAT);
+if(msgid==-1){
+	perror(\"msgget failed\");
+	exit(0);
+}
+
+
+
+2. msgsnd() and msgrcv()
+
+Before using these, define a message structure:
+
+struct msgbuf {
+  long mtype; // message type (must be > 0)
+  char mtext[100]; // message data
+};
+
+msgsnd()
+int msgsnd(int msgid, const void *msgp, size_t msgsz, int msgflg);
+
+msgid → message queue ID (returned by msgget)
+msgp → pointer to message structure
+msgsz → size of message (excluding mtype)
+msgflg → control flag (0 for default)
+
+Example:
+
+struct msgbuf message;
+message.mtype = 1;
+strcpy(message.mtext, "Hello");
+
+if(msgsnd(msgid, &message, sizeof(message.mtext), 0) == -1){
+  perror("msgsnd failed");
+}
+
+msgrcv()
+
+int msgrcv(int msgid, void *msgp, size_t msgsz, long msgtyp, int msgflg);
+
+msgid → message queue ID
+msgp → pointer to structure to store received message
+msgsz → size of message (excluding mtype)
+msgtyp → type of message to receive
+msgflg → control flag
+
+Example:
+
+if(msgrcv(msgid, &message, sizeof(message.mtext), 1, 0) == -1){
+  perror("msgrcv failed");
+}
+
+
+
+3. msgctl()
+
+int msgctl(int msgid, int cmd, struct msqid_ds *buf);
+
+msgid → message queue ID
+cmd → control command
+buf → pointer to msqid_ds structure (used for getting/setting info)
+
+Common commands:
+
+IPC_STAT → get queue information
+IPC_SET → set queue information
+IPC_RMID → remove (delete) message queue
+
+Example (delete queue):
+
+if(msgctl(msgid, IPC_RMID, NULL) == -1){
+  perror("msgctl failed");
+}
+
+
+
+
+
+
+
+Shared Memory Functions
+
+shmget() – create shared memory
+shmat() – attach shared memory to process address space
+shmdt() – detach shared memory
+shmctl() – control or delete shared memory
+
+shmget()
+
+int shmget(key_t key, size_t size, int shmflg);
+
+key → unique identifier
+size → size of shared memory segment in bytes
+shmflg → permissions and control flags
+
+Example:
+
+int shmid = shmget(1234, 1024, 0666 | IPC_CREAT);
+if(shmid == -1){
+  perror("shmget failed");
+  exit(0);
+}
+
+shmat()
+
+void *shmat(int shmid, const void *shmaddr, int shmflg);
+
+shmid → shared memory ID
+shmaddr → address to attach (NULL lets system choose)
+shmflg → flag (0 for default)
+
+Example:
+
+char data = (char) shmat(shmid, NULL, 0);
+if(data == (char*) -1){
+  perror("shmat failed");
+}
+
+shmdt()
+
+int shmdt(const void *shmaddr);
+
+shmaddr → address returned by shmat
+
+Example:
+
+if(shmdt(data) == -1){
+  perror("shmdt failed");
+}
+
+shmctl()
+
+int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+
+shmid → shared memory ID
+cmd → control command (IPC_RMID to delete)
+buf → buffer (usually NULL when deleting)
+
+Example:
+
+shmctl(shmid, IPC_RMID, NULL);
